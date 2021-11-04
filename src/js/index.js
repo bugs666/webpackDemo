@@ -1,1 +1,3 @@
-import * as styles from '../css/index.css'
+import '../css/index.css';
+import '../css/lessTest.less';
+// import '../css/sassTest.scss';

@@ -9,6 +9,34 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerWebpackPlugin = require('css-minimizer-webpack-plugin');
 
 let basePath = resolve(__dirname, 'dist');
+
+function getLoaderByType(type = 'css') {
+    let res = [
+        MiniCssExtractPlugin.loader,
+        'css-loader',
+        {
+            loader: 'postcss-loader',
+            options: {
+                postcssOptions: {
+                    plugins: [
+                        'postcss-preset-env'
+                    ]
+                }
+            }
+        }
+    ];
+    if (['scss', 'sass'].includes(type)) {
+        return [...res, {
+            loader: "sass-loader", // 将 Sass 编译成 CSS
+            options: {sourceMap: true}  //必须要写
+        }];
+    }
+    if (type == 'less') {
+        return [...res, 'less-loader'];
+    }
+    return res;
+}
+
 module.exports = {
     entry: './src/js/index.js',
     output: {
@@ -19,20 +47,15 @@ module.exports = {
         rules: [
             {
                 test: /.css$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    'css-loader',
-                    {
-                        loader: 'postcss-loader',
-                        options: {
-                            postcssOptions: {
-                                plugins: [
-                                    'postcss-preset-env'
-                                ]
-                            }
-                        }
-                    }
-                ]
+                use: getLoaderByType()
+            },
+            {
+                test: /.less$/,
+                use: getLoaderByType('less')
+            },
+            {
+                test: /.(sass|scss)/,
+                use: getLoaderByType('sass')
             }
         ]
     },
