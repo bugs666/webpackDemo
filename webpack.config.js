@@ -46,6 +46,23 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.(jpg|png|gif|jpeg)$/,
+                loader: "url-loader",
+                options: {
+                    outputPath: 'asset',
+                    name: '[hash:8].[ext]',
+                    esModule: false,
+                    limit: 8 * 1024
+                }
+            },
+            {
+                test: /\.html$/,
+                loader: "html-loader",
+                options: {
+                    esModule: false
+                }
+            },
+            {
                 test: /.css$/,
                 use: getLoaderByType()
             },
@@ -82,7 +99,7 @@ module.exports = {
                     }
                 }
             }
-            // webpack4的写法，在webpack5已被摒弃，js代码检查
+            // js代码检查
             // {
             //     test: /\.js&/,
             //     exclude: /node_modules/,
@@ -97,7 +114,13 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: "./src/index.html"
+            template: "./src/index.html",
+            minify: {
+                // 折叠html代码中的空白
+                collapseWhitespace: true,
+                //删除html代码注释
+                removeComments: true
+            }
         }),
         new MiniCssExtractPlugin({
             filename: 'css/main.css'
@@ -110,7 +133,9 @@ module.exports = {
             fix: true
         })
     ],
-    mode: 'development',
+    // mode: 'development',
+    // 开启生产模式时，会自动压缩js代码
+    mode: 'production',
     devServer: {
         static: {
             directory: join(__dirname, 'dist')

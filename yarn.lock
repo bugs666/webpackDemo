@@ -1864,11 +1864,6 @@ core-util-is@~1.0.0:
   resolved "https://registry.nlark.com/core-util-is/download/core-util-is-1.0.3.tgz?cache=0&sync_timestamp=1630420577662&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcore-util-is%2Fdownload%2Fcore-util-is-1.0.3.tgz#a6042d3634c2b27e9328f837b965fac83808db85"
   integrity sha1-pgQtNjTCsn6TKPg3uWX6yDgI24U=
 
-corejs@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.nlark.com/corejs/download/corejs-1.0.0.tgz#6d19351be6bb85ec96c60fd69c9ce087ad3f0d66"
-  integrity sha1-bRk1G+a7heyWxg/WnJzgh60/DWY=
-
 cosmiconfig@^7.0.0:
   version "7.0.1"
   resolved "https://registry.nlark.com/cosmiconfig/download/cosmiconfig-7.0.1.tgz#714d756522cace867867ccb4474c5d01bbae5d6d"
@@ -3106,7 +3101,7 @@ html-entities@^2.3.2:
 
 html-loader@^3.0.1:
   version "3.0.1"
-  resolved "https://registry.npmmirror.com/html-loader/download/html-loader-3.0.1.tgz?cache=0&sync_timestamp=1635869179251&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fhtml-loader%2Fdownload%2Fhtml-loader-3.0.1.tgz#84d9094d7fc2e3fcd871d1524736953742758585"
+  resolved "https://registry.npmmirror.com/html-loader/download/html-loader-3.0.1.tgz#84d9094d7fc2e3fcd871d1524736953742758585"
   integrity sha1-hNkJTX/C4/zYcdFSRzaVN0J1hYU=
   dependencies:
     html-minifier-terser "^6.0.2"
