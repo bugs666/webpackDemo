@@ -8,6 +8,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 //将css文件进行压缩，减小代码体积
 const CssMinimizerWebpackPlugin = require('css-minimizer-webpack-plugin');
 
+const EslintPlugin = require('eslint-webpack-plugin');
+
 let basePath = resolve(__dirname, 'dist');
 
 function getLoaderByType(type = 'css') {
@@ -54,9 +56,20 @@ module.exports = {
                 use: getLoaderByType('less')
             },
             {
-                test: /.(sass|scss)/,
+                test: /.(sass|scss)$/,
                 use: getLoaderByType('sass')
             }
+            // webpack4的写法，在webpack5已被摒弃
+            // {
+            //     test: /\.js&/,
+            //     exclude: '/node_modules/',
+            //     use: {
+            //         loader: "eslint-loader",
+            //         options: {
+            //             fixed: true
+            //         }
+            //     }
+            // }
         ]
     },
     plugins: [
@@ -66,7 +79,13 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: 'css/main.css'
         }),
-        new CssMinimizerWebpackPlugin()
+        new CssMinimizerWebpackPlugin(),
+        new EslintPlugin({
+            context: './src/js',
+            extensions: ['js', 'ts'],
+            exclude: ['node_modules', 'dist'],
+            fix: true
+        })
     ],
     mode: 'development',
     devServer: {
