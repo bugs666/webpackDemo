@@ -20,9 +20,7 @@ function getLoaderByType(type = 'css') {
             loader: 'postcss-loader',
             options: {
                 postcssOptions: {
-                    plugins: [
-                        'postcss-preset-env'
-                    ]
+                    plugins: ['postcss-preset-env']
                 }
             }
         }
@@ -58,11 +56,36 @@ module.exports = {
             {
                 test: /.(sass|scss)$/,
                 use: getLoaderByType('sass')
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: [[
+                            '@babel/preset-env',
+                            {
+                                useBuiltIns: 'usage',
+                                corejs: {
+                                    version: 3
+                                },
+                                targets: {
+                                    chrome: 60,
+                                    ie: 10
+                                }
+                            }
+                        ]],
+                        plugins: [
+                            '@babel/plugin-transform-runtime'
+                        ]
+                    }
+                }
             }
-            // webpack4的写法，在webpack5已被摒弃
+            // webpack4的写法，在webpack5已被摒弃，js代码检查
             // {
             //     test: /\.js&/,
-            //     exclude: '/node_modules/',
+            //     exclude: /node_modules/,
             //     use: {
             //         loader: "eslint-loader",
             //         options: {
