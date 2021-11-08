@@ -12,9 +12,13 @@ const EslintPlugin = require('eslint-webpack-plugin');
 
 let basePath = resolve(__dirname, 'dist');
 
+// https://webpack.docschina.org/guides/asset-modules/
+
 function getLoaderByType(type = 'css') {
     let res = [
-        MiniCssExtractPlugin.loader,
+        {
+            loader: MiniCssExtractPlugin.loader,
+        },
         'css-loader',
         {
             loader: 'postcss-loader',
@@ -42,26 +46,10 @@ module.exports = {
     output: {
         path: basePath,
         filename: "js/build.js"
+        // publicPath: '/dist'
     },
     module: {
         rules: [
-            {
-                test: /\.(jpg|png|gif|jpeg)$/,
-                loader: "url-loader",
-                options: {
-                    outputPath: 'asset',
-                    name: '[hash:8].[ext]',
-                    esModule: false,
-                    limit: 8 * 1024
-                }
-            },
-            {
-                test: /\.html$/,
-                loader: "html-loader",
-                options: {
-                    esModule: false
-                }
-            },
             {
                 test: /.css$/,
                 use: getLoaderByType()
@@ -73,6 +61,24 @@ module.exports = {
             {
                 test: /.(sass|scss)$/,
                 use: getLoaderByType('sass')
+            },
+            {
+                test: /\.(jpg|png|gif|jpeg)$/,
+                loader: "url-loader",
+                options: {
+                    outputPath: 'asset',
+                    name: '[name].[hash:8].[ext]',
+                    esModule: false,
+                    limit: 8 * 1024
+                },
+                type: 'javascript/auto'
+            },
+            {
+                test: /\.html$/,
+                loader: "html-loader",
+                options: {
+                    esModule: false
+                }
             },
             {
                 test: /\.js$/,
@@ -98,6 +104,17 @@ module.exports = {
                         ]
                     }
                 }
+            },
+            {
+                exclude: /\.(js|less|css|jpg|png|gif|jpeg|html)$/,
+                use: {
+                    loader: "file-loader",
+                    options: {
+                        name: 'media/[name].[hash:8].[ext]',
+                        esModule: false
+                    }
+                },
+                type: 'javascript/auto',
             }
             // js代码检查
             // {
@@ -133,9 +150,9 @@ module.exports = {
             fix: true
         })
     ],
-    // mode: 'development',
+    mode: 'development',
     // 开启生产模式时，会自动压缩js代码
-    mode: 'production',
+    // mode: 'production',
     devServer: {
         static: {
             directory: join(__dirname, 'dist')
