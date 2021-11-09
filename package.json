@@ -51,7 +51,12 @@
     "yarn": "^1.22.17"
   },
   "eslintConfig": {
-    "extends": "airbnb-base"
+    "extends": "airbnb-base",
+    "rules": {
+      "no-debugger": "off",
+      "no-console": "off",
+      "no-alert": "off"
+    }
   },
   "browserslist": [
     "> 1%",

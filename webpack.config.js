@@ -1,4 +1,4 @@
-const {resolve, join} = require('path');
+const {resolve} = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -11,8 +11,6 @@ const CssMinimizerWebpackPlugin = require('css-minimizer-webpack-plugin');
 const EslintPlugin = require('eslint-webpack-plugin');
 
 let basePath = resolve(__dirname, 'dist');
-
-// https://webpack.docschina.org/guides/asset-modules/
 
 function getLoaderByType(type = 'css') {
     let res = [
@@ -45,78 +43,82 @@ module.exports = {
     entry: './src/js/index.js',
     output: {
         path: basePath,
-        filename: "js/build.js"
-        // publicPath: '/dist'
+        filename: "js/build.[contenthash:8].js"
     },
     module: {
         rules: [
             {
-                test: /.css$/,
-                use: getLoaderByType()
-            },
-            {
-                test: /.less$/,
-                use: getLoaderByType('less')
-            },
-            {
-                test: /.(sass|scss)$/,
-                use: getLoaderByType('sass')
-            },
-            {
-                test: /\.(jpg|png|gif|jpeg)$/,
-                loader: "url-loader",
-                options: {
-                    outputPath: 'asset',
-                    name: '[name].[hash:8].[ext]',
-                    esModule: false,
-                    limit: 8 * 1024
-                },
-                type: 'javascript/auto'
-            },
-            {
-                test: /\.html$/,
-                loader: "html-loader",
-                options: {
-                    esModule: false
-                }
-            },
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: "babel-loader",
-                    options: {
-                        presets: [[
-                            '@babel/preset-env',
-                            {
-                                useBuiltIns: 'usage',
-                                corejs: {
-                                    version: 3
-                                },
-                                targets: {
-                                    chrome: 60,
-                                    ie: 10
-                                }
+                oneOf: [
+                    {
+                        test: /\.(jpg|png|gif|jpeg)$/,
+                        loader: "url-loader",
+                        options: {
+                            outputPath: 'asset',
+                            name: '[name].[hash:8].[ext]',
+                            esModule: false,
+                            limit: 8 * 1024
+                        },
+                        type: 'javascript/auto'
+                    },
+                    {
+                        test: /.css$/,
+                        use: getLoaderByType()
+                    },
+                    {
+                        test: /.less$/,
+                        use: getLoaderByType('less')
+                    },
+                    {
+                        test: /.(sass|scss)$/,
+                        use: getLoaderByType('sass')
+                    },
+                    {
+                        test: /\.html$/,
+                        loader: "html-loader",
+                        options: {
+                            esModule: false
+                        }
+                    },
+                    {
+                        test: /\.js$/,
+                        exclude: /node_modules/,
+                        use: {
+                            loader: "babel-loader",
+                            options: {
+                                presets: [[
+                                    '@babel/preset-env',
+                                    {
+                                        useBuiltIns: 'usage',
+                                        corejs: {
+                                            version: 3
+                                        },
+                                        targets: {
+                                            chrome: 60,
+                                            ie: 10
+                                        }
+                                    }
+                                ]],
+                                plugins: [
+                                    '@babel/plugin-transform-runtime'
+                                ],
+                                cacheDirectory: true
                             }
-                        ]],
-                        plugins: [
-                            '@babel/plugin-transform-runtime'
-                        ]
+                        }
+                    },
+                    {
+                        exclude: /\.(js|less|css|jpg|png|gif|jpeg|html)$/,
+                        use: {
+                            loader: "file-loader",
+                            options: {
+                                name: 'media/[name].[hash:8].[ext]',
+                                esModule: false
+                            }
+                        },
+                        type: 'javascript/auto',
                     }
-                }
-            },
-            {
-                exclude: /\.(js|less|css|jpg|png|gif|jpeg|html)$/,
-                use: {
-                    loader: "file-loader",
-                    options: {
-                        name: 'media/[name].[hash:8].[ext]',
-                        esModule: false
-                    }
-                },
-                type: 'javascript/auto',
+                ]
             }
-            // js代码检查
+            // js代码检查 webpack5之前的配置方法
             // {
             //     test: /\.js&/,
             //     exclude: /node_modules/,
@@ -140,9 +142,10 @@ module.exports = {
             }
         }),
         new MiniCssExtractPlugin({
-            filename: 'css/main.css'
+            filename: 'css/main.[contenthash:8].css'
         }),
         new CssMinimizerWebpackPlugin(),
+        //js代码检查，webpack5配置方法
         new EslintPlugin({
             context: './src/js',
             extensions: ['js', 'ts'],
@@ -155,10 +158,13 @@ module.exports = {
     // mode: 'production',
     devServer: {
         static: {
-            directory: join(__dirname, 'dist')
+            directory: resolve(__dirname, 'dist')
         },
         compress: true,
         port: 3001,
-        open: true
-    }
+        open: true,
+        //开启热模块替换 HMR
+        hot: true
+    },
+    devtool: 'eval-source-map'
 }

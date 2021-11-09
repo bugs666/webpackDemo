@@ -11,3 +11,7 @@ const promise = new Promise((resolve) => {
 promise.then((res) => console.log(`hello ${res.join('')}`));
 
 showInfo('hello world', 1000);
+
+(() => {
+  // debugger;
+})();
