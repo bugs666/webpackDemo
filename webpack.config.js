@@ -8,6 +8,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 //将css文件进行压缩，减小代码体积
 const CssMinimizerWebpackPlugin = require('css-minimizer-webpack-plugin');
 
+// 渐进式网络应用程序
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
+
 const EslintPlugin = require('eslint-webpack-plugin');
 
 let basePath = resolve(__dirname, 'dist');
@@ -151,6 +154,12 @@ module.exports = {
             extensions: ['js', 'ts'],
             exclude: ['node_modules', 'dist'],
             fix: true
+        }),
+        new WorkboxWebpackPlugin.GenerateSW({
+            // 这些选项帮助快速启用 ServiceWorkers
+            // 不允许遗留任何“旧的” ServiceWorkers
+            clientsClaim: true,
+            skipWaiting: true
         })
     ],
     mode: 'development',
@@ -166,5 +175,10 @@ module.exports = {
         //开启热模块替换 HMR
         hot: true
     },
-    devtool: 'eval-source-map'
+    devtool: 'eval-source-map',
+    optimization: {
+        splitChunks: {
+            chunks: "all"
+        }
+    }
 }
