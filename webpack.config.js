@@ -13,6 +13,10 @@ const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 
 const EslintPlugin = require('eslint-webpack-plugin');
 
+const {DllReferencePlugin} = require('webpack');
+
+const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin');
+
 let basePath = resolve(__dirname, 'dist');
 
 function getLoaderByType(type = 'css') {
@@ -160,6 +164,12 @@ module.exports = {
             // 不允许遗留任何“旧的” ServiceWorkers
             clientsClaim: true,
             skipWaiting: true
+        }),
+        new DllReferencePlugin({
+            manifest: require('./dist/dll/manifest.json')
+        }),
+        new AddAssetHtmlWebpackPlugin({
+            filename: resolve(__dirname, 'dist/dll/MyDll.react.js')
         })
     ],
     mode: 'development',
