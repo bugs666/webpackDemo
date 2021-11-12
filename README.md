@@ -21,8 +21,16 @@
 ## 遇到的一些坑
 
 ### 1. url-loader和file-loader重复打包产生重复资源文件
+
 ```
 解决办法：https://webpack.docschina.org/guides/asset-modules/
 原因：webpack5之前的资源模块需要使用raw-loader,url-loader和file-loader进行资源处理， 
 但是在webpack5中继续使用这些旧的资源loader时，就会导致资源模块重复
+```
+
+### 2. 用add-asset-html-webpack-plugin插件生成的引用路径多一层auto（auto/MyDll.react.js）
+
+```
+解决办法：
+![readmeImgs/img.png](img.png)
 ```
