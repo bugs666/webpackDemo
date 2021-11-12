@@ -169,8 +169,9 @@ module.exports = {
             manifest: require('./dist/dll/manifest.json')
         }),
         new AddAssetHtmlWebpackPlugin({
-            filepath: join(__dirname, 'dist', 'dll/MyDll.*.js'),
-            publicPath: './dll'
+            filepath: join(__dirname, 'dist/dll/MyDll.*.js'),
+            publicPath: 'dll',
+            outputPath: 'dist/dll'
         })
     ],
     mode: 'development',
