@@ -187,6 +187,7 @@ module.exports = {
         hot: true
     },
     devtool: 'eval-source-map',
+    //代码分割
     optimization: {
         splitChunks: {
             chunks: "all"
