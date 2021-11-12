@@ -5,6 +5,7 @@ const {DllPlugin} = require('webpack');
 module.exports = {
     entry: {
         react: ["react"],
+        jquery: ['jquery']
     },
     output: {
         path: resolve(__dirname, "dist/dll"),
@@ -14,7 +15,7 @@ module.exports = {
     plugins: [
         new DllPlugin({
             path: resolve(__dirname, "dist/dll/manifest.json"),
-            name: "[name]_[fullhash]"
+            name: "[name]_[hash:8]"
         })
     ],
     mode: 'development'

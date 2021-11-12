@@ -1,4 +1,4 @@
-const {resolve} = require('path');
+const {resolve, join} = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -40,7 +40,7 @@ function getLoaderByType(type = 'css') {
             options: {sourceMap: true}  //必须要写
         }];
     }
-    if (type == 'less') {
+    if (type === 'less') {
         return [...res, 'less-loader'];
     }
     return res;
@@ -159,17 +159,18 @@ module.exports = {
             exclude: ['node_modules', 'dist'],
             fix: true
         }),
-        new WorkboxWebpackPlugin.GenerateSW({
-            // 这些选项帮助快速启用 ServiceWorkers
-            // 不允许遗留任何“旧的” ServiceWorkers
-            clientsClaim: true,
-            skipWaiting: true
-        }),
+        // new WorkboxWebpackPlugin.GenerateSW({
+        //     // 这些选项帮助快速启用 ServiceWorkers
+        //     // 不允许遗留任何“旧的” ServiceWorkers
+        //     clientsClaim: true,
+        //     skipWaiting: true
+        // }),
         new DllReferencePlugin({
             manifest: require('./dist/dll/manifest.json')
         }),
         new AddAssetHtmlWebpackPlugin({
-            filename: resolve(__dirname, 'dist/dll/MyDll.react.js')
+            filepath: join(__dirname, 'dist', 'dll/MyDll.*.js'),
+            publicPath: './dll'
         })
     ],
     mode: 'development',
