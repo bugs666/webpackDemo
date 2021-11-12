@@ -31,6 +31,12 @@
 ### 2. 用add-asset-html-webpack-plugin插件生成的引用路径多一层auto（auto/MyDll.react.js）
 
 ```
-解决办法：
-![readmeImgs/img.png](img.png)
+解决办法：添加publicPath配置，值为dll打包的资源路径
+```
+
+```
+new AddAssetHtmlWebpackPlugin({
+    filepath: join(__dirname, 'dist', 'dll/MyDll.*.js'),
+    publicPath: './dll'
+})
 ```
