@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@assets/*": [
+        "src/assets/*"
+      ]
+    },
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "target": "es5",
+    "jsx": "react",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": [
+      "./node_modules/@types/",
+      "./src/typings"
+    ]
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

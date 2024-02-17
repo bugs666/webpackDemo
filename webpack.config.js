@@ -47,10 +47,17 @@ function getLoaderByType(type = 'css') {
 }
 
 module.exports = {
-    entry: './src/js/index.js',
+    entry: resolve(__dirname, 'src/index.js'),
     output: {
         path: basePath,
         filename: "js/build.[contenthash:8].js"
+    },
+    resolve: {
+        alias: {
+            "@src": resolve(__dirname, 'src'),
+            "@assets": resolve(__dirname, 'src/assets')
+        },
+        extensions: ['.js', '.jsx', '.ts', '.tsx']
     },
     module: {
         rules: [
@@ -92,19 +99,20 @@ module.exports = {
                         use: {
                             loader: "babel-loader",
                             options: {
-                                presets: [[
+                                presets: [
                                     '@babel/preset-env',
-                                    {
-                                        useBuiltIns: 'usage',
-                                        corejs: {
-                                            version: 3
-                                        },
-                                        targets: {
-                                            chrome: 60,
-                                            ie: 10
-                                        }
-                                    }
-                                ]],
+                                    '@babel/preset-react'
+                                    // {
+                                    //     useBuiltIns: 'usage',
+                                    //     corejs: {
+                                    //         version: 3
+                                    //     },
+                                    //     targets: {
+                                    //         chrome: 60,
+                                    //         ie: 10
+                                    //     }
+                                    // }
+                                ],
                                 plugins: [
                                     '@babel/plugin-transform-runtime'
                                 ],
@@ -113,7 +121,12 @@ module.exports = {
                         }
                     },
                     {
-                        exclude: /\.(js|less|css|jpg|png|gif|jpeg|html)$/,
+                        test: /\.(ts|tsx)$/,
+                        exclude: /node_modules/,
+                        use: 'ts-loader'
+                    },
+                    {
+                        test: /\.ttf$/,
                         use: {
                             loader: "file-loader",
                             options: {
@@ -153,12 +166,12 @@ module.exports = {
         }),
         new CssMinimizerWebpackPlugin(),
         //js代码检查，webpack5配置方法
-        new EslintPlugin({
-            context: './src/js',
-            extensions: ['js', 'ts'],
-            exclude: ['node_modules', 'dist'],
-            fix: true
-        }),
+        // new EslintPlugin({
+        //     context: './src/js',
+        //     extensions: ['js', 'ts'],
+        //     exclude: ['node_modules', 'dist'],
+        //     fix: true
+        // }),
         // new WorkboxWebpackPlugin.GenerateSW({
         //     // 这些选项帮助快速启用 ServiceWorkers
         //     // 不允许遗留任何“旧的” ServiceWorkers
@@ -166,12 +179,12 @@ module.exports = {
         //     skipWaiting: true
         // }),
         new DllReferencePlugin({
-            manifest: require('./dist/dll/manifest.json')
+            manifest: require('./dll/manifest.json')
         }),
         new AddAssetHtmlWebpackPlugin({
-            filepath: join(__dirname, 'dist/dll/MyDll.*.js'),
+            filepath: join(__dirname, 'dll/vendor.dll.js'),
             publicPath: 'dll',
-            outputPath: 'dist/dll'
+            outputPath: 'dll'
         })
     ],
     mode: 'development',
