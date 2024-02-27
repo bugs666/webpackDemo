@@ -4,7 +4,7 @@ const {DllPlugin} = require('webpack');
 
 module.exports = {
     entry: {
-        vendor: ['react', 'jquery']
+        vendor: ['react', 'jquery', "react-dom"]
     },
     output: {
         path: resolve(__dirname, "dll"),

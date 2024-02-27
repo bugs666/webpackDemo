@@ -7,7 +7,7 @@ body {
     height: 100vh;
     background: aliceblue;
     backface-visibility: hidden;
-    background: url("../assets/img1.jpeg") 100% 100% no-repeat fixed;
+    /*background: url("../assets/img1.jpeg") 100% 100% no-repeat fixed;*/
 }
 
 #root {

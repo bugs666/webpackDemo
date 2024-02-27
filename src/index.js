@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDom from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import './css/index.css';
 import './css/lessTest.less';
 import App from "@src/app";
@@ -22,4 +22,4 @@ console.log('测试hmr');
 console.log('react', React);
 // console.log('jquery', $);
 
-ReactDom.render(<App/>, document.getElementById('root'));
+createRoot(document.querySelector('#root')).render(<App/>);
