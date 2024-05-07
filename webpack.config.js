@@ -13,7 +13,7 @@ const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 
 const EslintPlugin = require('eslint-webpack-plugin');
 
-const {DllReferencePlugin} = require('webpack');
+const {DllReferencePlugin, ProgressPlugin} = require('webpack');
 
 const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin');
 
@@ -170,6 +170,10 @@ module.exports = {
             filename: 'css/main.[contenthash:8].css'
         }),
         new CssMinimizerWebpackPlugin(),
+        new ProgressPlugin({
+            activeModules: true, // 显示活动模块计数和一个活动模块正在进行消息。
+            // 其他配置...
+        }),
         //js代码检查，webpack5配置方法
         // new EslintPlugin({
         //     context: './src/js',
