@@ -4,6 +4,9 @@
     "paths": {
       "@assets/*": [
         "src/assets/*"
+      ],
+      "@pages/*": [
+        "src/pages/*"
       ]
     },
     "module": "ESNext",

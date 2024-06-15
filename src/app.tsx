@@ -3,7 +3,8 @@ import chiji from '@assets/chiji.gif'
 import img1 from '@assets/img1.jpeg'
 import img2 from '@assets/img2.png'
 import img3 from '@assets/img3.jpg'
-import Flow from "@src/pages/testFlow";
+import Flow from "@pages/testFlow";
+import {ReduxTest} from "@pages/rudux-test";
 
 
 const App = () => {
@@ -16,7 +17,8 @@ const App = () => {
         <span className="iconfont icon-shinei_yizi02"/>
         <span className="iconfont icon-shinei_fengshan02"/>
         <span className="iconfont icon-shinei_shafa02"/>*/}
-        <Flow/>
+        {/*<Flow/>*/}
+        <ReduxTest/>
     </>
 }
 export default App;

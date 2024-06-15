@@ -2,7 +2,7 @@ import React from 'react';
 import {createRoot} from 'react-dom/client';
 import './css/index.css';
 import './css/lessTest.less';
-import App from "@src/app";
+import App from "./app";
 // import '../css/sassTest.scss';
 
 const showInfo = (info, time) => setTimeout(() => console.log(info), time);
